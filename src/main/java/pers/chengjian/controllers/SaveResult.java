@@ -74,6 +74,7 @@ public class SaveResult extends HttpServlet {
 		int MRF = Integer.valueOf(request.getParameter("MRF"));
 		int Ours1 = Integer.valueOf(request.getParameter("Ours1"));
 		int Ours2 = Integer.valueOf(request.getParameter("Ours2"));
+		int Ours3 = Integer.valueOf(request.getParameter("Ours3"));
 		int pix2pix = Integer.valueOf(request.getParameter("pix2pix"));
 		int RSLCR = Integer.valueOf(request.getParameter("RSLCR"));
 		PrintWriter out = response.getWriter();
@@ -83,6 +84,7 @@ public class SaveResult extends HttpServlet {
 		map.put("MRF", MRF);
 		map.put("Ours1", Ours1);
 		map.put("Ours2", Ours2);
+		map.put("Ours3", Ours3);
 		map.put("pix2pix", pix2pix);
 		map.put("RSLCR", RSLCR);
 		result.add(map);
