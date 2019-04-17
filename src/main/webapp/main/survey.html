@@ -13,9 +13,7 @@
     index = 0;
     LLE_score = null;
     MRF_score = null;
-    Ours1_score = null;
     Ours2_score = null;
-    Ours3_score = null;
     pix2pix_score = null;
     RSLCR_score = null;
     function padding(num, length) {
@@ -27,9 +25,7 @@
     function get_scores() {
       LLE_score = parseInt($("#LLE").val());
       MRF_score = parseInt($("#MRF").val());
-      Ours1_score = parseInt($("#Ours1").val());
       Ours2_score = parseInt($("#Ours2").val());
-      Ours3_score = parseInt($("#Ours3").val());
       pix2pix_score = parseInt($("#pix2pix").val());
       RSLCR_score = parseInt($("#RSLCR").val());
     }
@@ -37,16 +33,14 @@
       get_scores();
       if (isNaN(LLE_score)) return false;
       if (isNaN(MRF_score)) return false;
-      if (isNaN(Ours1_score)) return false;
       if (isNaN(Ours2_score)) return false;
-      if (isNaN(Ours3_score)) return false;
       if (isNaN(pix2pix_score)) return false;
       if (isNaN(RSLCR_score)) return false;
-      scores = [LLE_score, MRF_score, Ours1_score, Ours2_score, Ours3_score, pix2pix_score, RSLCR_score];
+      scores = [LLE_score, MRF_score, Ours2_score, pix2pix_score, RSLCR_score];
       scores.sort();
       if (scores[0]!=1) return false;
       last = scores[0];
-      for (i=1;i<7;++i) {
+      for (i=1;i<5;++i) {
         if (scores[i]!=last && scores[i]!=i+1) return false;
         last = scores[i];
       }
@@ -64,17 +58,13 @@
           photo_path = "images/photos/"+image_path;
           LLE_path = "images/LLE/"+image_path;
           MRF_path = "images/MRF/"+image_path;
-          Ours1_path = "images/Ours1/"+image_path;
           Ours2_path = "images/Ours2/"+image_path;
-          Ours3_path = "images/Ours3/"+image_path;
           pix2pix_path = "images/pix2pix/"+image_path;
           RSLCR_path = "images/RSLCR/"+image_path;
           $("#photo").attr("src", photo_path);
           $("#LLE_image").attr("src", LLE_path);
           $("#MRF_image").attr("src", MRF_path);
-          $("#Ours1_image").attr("src", Ours1_path);
           $("#Ours2_image").attr("src", Ours2_path);
-          $("#Ours3_image").attr("src", Ours3_path);
           $("#pix2pix_image").attr("src", pix2pix_path);
           $("#RSLCR_image").attr("src", RSLCR_path);
 
@@ -87,8 +77,8 @@
     }
 
     function save_result() {
-      scores = {"LLE":LLE_score, "MRF":MRF_score, "Ours1":Ours1_score,
-        "Ours2":Ours2_score, "Ours3":Ours3_score, "pix2pix":pix2pix_score, "RSLCR":RSLCR_score};
+      scores = {"LLE":LLE_score, "MRF":MRF_score, 
+        "Ours2":Ours2_score, "pix2pix":pix2pix_score, "RSLCR":RSLCR_score};
       $.post("SaveResult", scores, function (data, status) {
         if (status=="success") {
           if (data=="continue") {
@@ -100,9 +90,7 @@
         }
         $("#LLE").val("");
         $("#MRF").val("");
-        $("#Ours1").val("");
         $("#Ours2").val("");
-        $("#Ours3").val("");
         $("#pix2pix").val("");
         $("#RSLCR").val("");
       });
@@ -128,13 +116,7 @@
       $("#MRF").click(function () {
         $("#score_warning").attr("hidden", true);
       });
-      $("#Ours1").click(function () {
-        $("#score_warning").attr("hidden", true);
-      });
       $("#Ours2").click(function () {
-        $("#score_warning").attr("hidden", true);
-      });
-      $("#Ours3").click(function () {
         $("#score_warning").attr("hidden", true);
       });
       $("#pix2pix").click(function () {
@@ -154,8 +136,8 @@
       <h3>排序规则</h3>
       <ol>
         <li>
-          <p>在每张素描下方填写排序分数。排序分数应当从1开始，且为整数1~7中某一个。
-          其中：分数为1表示生成质量最优；分数为7表示生成质量最差，1必须出现。</p>
+          <p>在每张素描下方填写排序分数。排序分数应当从1开始，且为整数1~5中某一个。
+          其中：分数为1表示生成质量最优；分数为5表示生成质量最差，1必须出现。</p>
         </li>
         <li>
           <p>可以出现并列排序分数，但若出现则下一序号空缺。
@@ -176,20 +158,16 @@
       <p class="text-center">请给下面的人脸素描进行评分</p>
       <table border="0px" align="center" cellspacing="10px">
         <tr>
-          <td><img id="LLE_image" src="images/LLE/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="MRF_image" src="images/MRF/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="Ours1_image" src="images/Ours1/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="Ours2_image" src="images/Ours2/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="Ours3_image" src="images/Ours3/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="pix2pix_image" src="images/pix2pix/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
-          <td><img id="RSLCR_image" src="images/RSLCR/1.png" style="border: 5px solid white;width:100px;height:125px"></td>
+          <td><img id="LLE_image" src="images/LLE/1.png" style="border: 5px solid white;width:140px;height:175px"></td>
+          <td><img id="MRF_image" src="images/MRF/1.png" style="border: 5px solid white;width:140px;height:175px"></td>
+          <td><img id="Ours2_image" src="images/Ours2/1.png" style="border: 5px solid white;width:140px;height:175px"></td>
+          <td><img id="pix2pix_image" src="images/pix2pix/1.png" style="border: 5px solid white;width:140px;height:175px"></td>
+          <td><img id="RSLCR_image" src="images/RSLCR/1.png" style="border: 5px solid white;width:140px;height:175px"></td>
         </tr>
         <tr>
           <td><div align="center"><input id="LLE" style="width: 50px"></div></td>
           <td><div align="center"><input id="MRF" style="width: 50px"></div></td>
-          <td><div align="center"><input id="Ours1" style="width: 50px"></div></td>
           <td><div align="center"><input id="Ours2" style="width: 50px"></div></td>
-          <td><div align="center"><input id="Ours3" style="width: 50px"></div></td>
           <td><div align="center"><input id="pix2pix" style="width: 50px"></div></td>
           <td><div align="center"><input id="RSLCR" style="width: 50px"></div></td>
         </tr>
